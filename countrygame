@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Which Country is This?</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+    #map {
+        height: 400px;
+        width: 100%;
+    }
+</style>
+</head>
+<body>
+<h1>Which Country is This?</h1>
+<div id="map"></div>
+<input type="text" id="guessInput" placeholder="Enter your guess">
+<button onclick="checkGuess()">Check</button>
+<p id="result"></p>
+
+<script>
+    function initMap() {
+        // Initial map center
+        var center = {lat: 0, lng: 0};
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 3,
+            center: center
+        });
+
+        // Add marker at random location
+        var marker = new google.maps.Marker({
+            position: {lat: getRandomNumber(-90, 90), lng: getRandomNumber(-180, 180)},
+            map: map
+        });
+    }
+
+    function getRandomNumber(min, max) {
+        return Math.random() * (max - min) + min;
+    }
+
+    function checkGuess() {
+        var guess = document.getElementById('guessInput').value.toLowerCase();
+        var correctAnswer = "country name"; // Replace with the correct country name
+        var resultElement = document.getElementById('result');
+
+        if (guess === correctAnswer.toLowerCase()) {
+            resultElement.textContent = "Correct! You guessed it right.";
+            // Clear input field
+            document.getElementById('guessInput').value = "";
+            // Reset map with a new random location
+            initMap();
+        } else {
+            resultElement.textContent = "Incorrect! Try again.";
+        }
+    }
+</script>
+<!-- Replace YOUR_API_KEY with your actual Google Maps API key -->
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"></script>
+</body>
+</html>
